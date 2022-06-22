@@ -66,6 +66,17 @@ function handleBreathHoldClick() {
   }
 }
 
+function handleStartExerciseClick() {
+  $("iframe")[0].src += "&autoplay=1";
+  logEvent(event_exerciseStart);
+  $("#start-exercise-button").prop("disabled", true);
+}
+
+function handleStopExerciseClick() {
+  logEvent(event_exerciseStop);
+  $("#stop-exercise-button").prop("disabled", true);
+}
+
 $("#session-start-button").click(function (e) {
   if (!isTimerRunning) {
     handleSessionStart();
@@ -82,4 +93,12 @@ $("#session-stop-button").click(function (e) {
 
 $("#mark-breath-hold-start-stop-button").click(function (e) {
   handleBreathHoldClick();
+});
+
+$("#start-exercise-button").click(function (e) {
+  handleStartExerciseClick();
+});
+
+$("#stop-exercise-button").click(function (e) {
+  handleStopExerciseClick();
 });
