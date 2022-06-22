@@ -3,6 +3,7 @@ let isTimerRunning = false;
 let isCurrentlyHoldingBreath = false;
 let timerIntervalId;
 let eventsLog = [];
+let textFile;
 
 const event_sessionStart = "Session Start";
 const event_sessionStop = "Session Stop";
@@ -78,7 +79,8 @@ function handleSessionStop() {
   renderTime();
   // TODO: prompt user for additional info, then log me to a CSV, then clear event log
   promptUserForAdditionalInfo();
-  console.log(eventsLog);
+  enableDownloadLinkWithCSV();
+  eventsLog = [];
 }
 
 function handleBreathHoldClick() {
@@ -125,6 +127,38 @@ function promptUserForAdditionalInfo() {
       }
     }
   }
+}
+
+function dumpEventLogToCSVString() {
+  let returnString =
+    "Timestamp,Event,Location On Body,Intensity,Sensation Description\n";
+  for (const currentEvent of eventsLog) {
+    let eventString = currentEvent.join(",");
+    returnString += eventString + "\n";
+  }
+  return returnString;
+}
+
+function makeTextFile(text) {
+  var data = new Blob([text], { type: "text/plain" });
+
+  // If we are replacing a previously generated file we need to
+  // manually revoke the object URL to avoid memory leaks.
+  if (textFile !== null) {
+    window.URL.revokeObjectURL(textFile);
+  }
+
+  textFile = window.URL.createObjectURL(data);
+
+  // returns a URL you can use as a href
+  return textFile;
+}
+
+function enableDownloadLinkWithCSV() {
+  const csvString = dumpEventLogToCSVString();
+  $("#csv-download-link").attr("download", "eventLog.csv");
+  $("#csv-download-link").attr("href", makeTextFile(csvString));
+  $("#csv-download-link").prop("hidden", false);
 }
 
 $("#session-start-button").click(function (e) {
