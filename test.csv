@@ -1,0 +1,9 @@
+Timestamp,Event,Location On Body,Intensity,Sensation Description
+0:00,Session Start,
+2:00,Exercise Start,
+4:00,Breath Hold Start,
+4:30,Sensation: Chills,Left Elbow,10,
+4:50,Sensation: ???,Right Nut,9,My nut twinged violently
+6:00,Breath Hold Stop,
+7:00,Exercise Stop,
+9:00,Session Stop

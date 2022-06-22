@@ -1,6 +1,17 @@
 let timeInSeconds = 0;
 let isTimerRunning = false;
 let timerIntervalId;
+let eventsLog = [];
+
+// Possible events:
+const event_sessionStart = "Session Start";
+const event_sessionStop = "Session Stop";
+const event_exerciseStart = "Exercise Start"; // This starts the video
+const event_breathHoldStart = "Breath Hold Start";
+const event_breathHoldStop = "Breath Hold Stop";
+const event_exerciseStop = "Exercise Stop";
+const event_sensation_chills = "Sensation: Chills";
+const event_sensation_wildcard = "Sensation: ???";
 
 function renderTime() {
   $("#timer-container").text(secondsToTimeString(timeInSeconds));
@@ -19,26 +30,30 @@ function secondsToTimeString(seconds) {
   return `${minutes}:${secondsString}`;
 }
 
-function handleTimerStart() {
+function handleSessionStart() {
   renderTime();
   timerIntervalId = setInterval(tickOneSecond, 1000);
+  $("#session-start-button").prop("disabled", true);
+  $("#session-stop-button").prop("disabled", false);
 }
 
-$("#timer-start-button").click(function (e) {
+$("#session-start-button").click(function (e) {
   if (!isTimerRunning) {
-    handleTimerStart();
+    handleSessionStart();
     isTimerRunning = true;
   }
 });
 
-function handleTimerStop() {
+function handleSessionStop() {
   renderTime();
   clearInterval(timerIntervalId);
+  $("#session-start-button").prop("disabled", false);
+  $("#session-stop-button").prop("disabled", true);
 }
 
-$("#timer-stop-button").click(function (e) {
+$("#session-stop-button").click(function (e) {
   if (isTimerRunning) {
-    handleTimerStop();
+    handleSessionStop();
     isTimerRunning = false;
   }
 });
