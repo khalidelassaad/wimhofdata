@@ -76,8 +76,9 @@ function handleSessionStop() {
   logEvent(event_sessionStop);
   timeInSeconds = 0;
   renderTime();
-  console.log(eventsLog);
   // TODO: prompt user for additional info, then log me to a CSV, then clear event log
+  promptUserForAdditionalInfo();
+  console.log(eventsLog);
 }
 
 function handleBreathHoldClick() {
@@ -101,6 +102,29 @@ function handleStartExerciseClick() {
 function handleStopExerciseClick() {
   logEvent(event_exerciseStop);
   $("#stop-exercise-button").prop("disabled", true);
+}
+
+function promptUserForAdditionalInfo() {
+  for (let i = 0; i < eventsLog.length; i++) {
+    let currentEvent = eventsLog[i][1];
+    let eventTime = eventsLog[i][0];
+    if (currentEvent.slice(0, 9) == "Sensation") {
+      let location = prompt(
+        `At time ${eventTime}, you recorded ${currentEvent}.\nWhere on your body did you feel this sensation?`
+      );
+      eventsLog[i].push(location);
+      let intensity = prompt(
+        `At time ${eventTime}, you recorded ${currentEvent}.\nHow strongly did you feel this sensation from 1 to 10?`
+      );
+      eventsLog[i].push(intensity);
+      if (currentEvent == "Sensation: ???") {
+        let description = prompt(
+          `At time ${eventTime}, you recorded ${currentEvent}.\nPlease describe the sensation:`
+        );
+        eventsLog[i].push(description);
+      }
+    }
+  }
 }
 
 $("#session-start-button").click(function (e) {
