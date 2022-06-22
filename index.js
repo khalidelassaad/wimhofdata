@@ -1,4 +1,16 @@
 let timeInSeconds = 0;
+let isTimerRunning = false;
+
+function renderTime() {
+  $("#timer-container").text(secondsToTimeString(timeInSeconds));
+}
+
+function tickOneSecond() {
+  console.log("tick");
+  console.log(timeInSeconds);
+  timeInSeconds += 1;
+  renderTime();
+}
 
 function secondsToTimeString(seconds) {
   let minutes = Math.floor(seconds / 60);
@@ -9,11 +21,13 @@ function secondsToTimeString(seconds) {
 }
 
 function handleTimerStart() {
-  console.log("START THE TIMER!!!");
-  $("#timer-container").text(secondsToTimeString(timeInSeconds));
-  timeInSeconds += 1;
+  renderTime();
+  setInterval(tickOneSecond, 10);
 }
 
 $("#timer-start-button").click(function (e) {
-  handleTimerStart();
+  if (!isTimerRunning) {
+    handleTimerStart();
+    isTimerRunning = true;
+  }
 });
