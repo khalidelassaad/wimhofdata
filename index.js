@@ -77,7 +77,6 @@ function handleSessionStop() {
   logEvent(event_sessionStop);
   timeInSeconds = 0;
   renderTime();
-  // TODO: prompt user for additional info, then log me to a CSV, then clear event log
   promptUserForAdditionalInfo();
   enableDownloadLinkWithCSV();
   eventsLog = [];
