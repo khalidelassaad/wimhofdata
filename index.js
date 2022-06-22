@@ -6,8 +6,6 @@ function renderTime() {
 }
 
 function tickOneSecond() {
-  console.log("tick");
-  console.log(timeInSeconds);
   timeInSeconds += 1;
   renderTime();
 }
@@ -22,7 +20,7 @@ function secondsToTimeString(seconds) {
 
 function handleTimerStart() {
   renderTime();
-  setInterval(tickOneSecond, 10);
+  setInterval(tickOneSecond, 1000);
 }
 
 $("#timer-start-button").click(function (e) {
