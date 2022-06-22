@@ -26,7 +26,7 @@ const sensationButtons = [
   ["Sensation: Muscle Spasm", "sensation-muscle-spasm-button", "Muscle Spasm"],
   ["Sensation: Air Hunger", "sensation-air-hunger-button", "Air Hunger"],
   ["Sensation: Calm", "sensation-calm-button", "Calm"],
-  ["Sensation: ???", "sensation-wildcard-button", "???"],
+  ["Sensation: Other", "sensation-wildcard-button", "Other"],
 ];
 
 function generateSensationButtonsAndEventHandlers() {
@@ -118,7 +118,7 @@ function promptUserForAdditionalInfo() {
         `At time ${eventTime}, you recorded ${currentEvent}.\nHow strongly did you feel this sensation from 1 to 10?`
       );
       eventsLog[i].push(intensity);
-      if (currentEvent == "Sensation: ???") {
+      if (currentEvent == "Sensation: Other") {
         let description = prompt(
           `At time ${eventTime}, you recorded ${currentEvent}.\nPlease describe the sensation:`
         );
