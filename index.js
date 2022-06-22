@@ -4,15 +4,41 @@ let isCurrentlyHoldingBreath = false;
 let timerIntervalId;
 let eventsLog = [];
 
-// Possible events:
 const event_sessionStart = "Session Start";
 const event_sessionStop = "Session Stop";
 const event_exerciseStart = "Exercise Start"; // This starts the video
 const event_breathHoldStart = "Breath Hold Start";
 const event_breathHoldStop = "Breath Hold Stop";
 const event_exerciseStop = "Exercise Stop";
-const event_sensation_chills = "Sensation: Chills";
-const event_sensation_wildcard = "Sensation: ???";
+
+const sensationButtons = [
+  // Event to log, button id for html, button text
+  ["Sensation: Chills", "sensation-chills-button", "Chills"],
+  ["Sensation: Heat", "sensation-heat-button", "Heat"],
+  ["Sensation: Light-Headed", "sensation-light-headed-button", "Light-Headed"],
+  ["Sensation: Compression", "sensation-compression-button", "Compression"],
+  [
+    "Sensation: Muscle Clenching",
+    "sensation-muscle-clenching-button",
+    "Muscle Clenching",
+  ],
+  ["Sensation: Muscle Spasm", "sensation-muscle-spasm-button", "Muscle Spasm"],
+  ["Sensation: Air Hunger", "sensation-air-hunger-button", "Air Hunger"],
+  ["Sensation: Calm", "sensation-calm-button", "Calm"],
+  ["Sensation: ???", "sensation-wildcard-button", "???"],
+];
+
+function generateSensationButtonsAndEventHandlers() {
+  for (const sensationButton of sensationButtons) {
+    // sensationButton = ["Sensation: Calm", "sensation-calm-button", "Calm"]
+    $("#sensation-markers-container").append(
+      `<button id=${sensationButton[1]}>${sensationButton[2]}</button>`
+    );
+    $(`#${sensationButton[1]}`).click(function (e) {
+      logEvent(sensationButton[0]);
+    });
+  }
+}
 
 function logEvent(eventToLog) {
   eventsLog.push([secondsToTimeString(timeInSeconds), eventToLog]);
@@ -102,3 +128,5 @@ $("#start-exercise-button").click(function (e) {
 $("#stop-exercise-button").click(function (e) {
   handleStopExerciseClick();
 });
+
+generateSensationButtonsAndEventHandlers();
