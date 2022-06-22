@@ -1,5 +1,6 @@
 let timeInSeconds = 0;
 let isTimerRunning = false;
+let isCurrentlyHoldingBreath = false;
 let timerIntervalId;
 let eventsLog = [];
 
@@ -42,13 +43,6 @@ function handleSessionStart() {
   logEvent(event_sessionStart);
 }
 
-$("#session-start-button").click(function (e) {
-  if (!isTimerRunning) {
-    handleSessionStart();
-    isTimerRunning = true;
-  }
-});
-
 function handleSessionStop() {
   clearInterval(timerIntervalId);
   $("#session-start-button").prop("disabled", false);
@@ -57,11 +51,35 @@ function handleSessionStop() {
   timeInSeconds = 0;
   renderTime();
   console.log(eventsLog);
+  // TODO: prompt user for additional info, then log me to a CSV, then clear event log
 }
+
+function handleBreathHoldClick() {
+  if (isCurrentlyHoldingBreath) {
+    logEvent(event_breathHoldStop);
+    $("#mark-breath-hold-start-stop-button").text("Breath Hold Start");
+    isCurrentlyHoldingBreath = false;
+  } else {
+    logEvent(event_breathHoldStart);
+    $("#mark-breath-hold-start-stop-button").text("Breath Hold Stop");
+    isCurrentlyHoldingBreath = true;
+  }
+}
+
+$("#session-start-button").click(function (e) {
+  if (!isTimerRunning) {
+    handleSessionStart();
+    isTimerRunning = true;
+  }
+});
 
 $("#session-stop-button").click(function (e) {
   if (isTimerRunning) {
     handleSessionStop();
     isTimerRunning = false;
   }
+});
+
+$("#mark-breath-hold-start-stop-button").click(function (e) {
+  handleBreathHoldClick();
 });
