@@ -13,6 +13,10 @@ const event_exerciseStop = "Exercise Stop";
 const event_sensation_chills = "Sensation: Chills";
 const event_sensation_wildcard = "Sensation: ???";
 
+function logEvent(eventToLog) {
+  eventsLog.push([secondsToTimeString(timeInSeconds), eventToLog]);
+}
+
 function renderTime() {
   $("#timer-container").text(secondsToTimeString(timeInSeconds));
 }
@@ -35,6 +39,7 @@ function handleSessionStart() {
   timerIntervalId = setInterval(tickOneSecond, 1000);
   $("#session-start-button").prop("disabled", true);
   $("#session-stop-button").prop("disabled", false);
+  logEvent(event_sessionStart);
 }
 
 $("#session-start-button").click(function (e) {
@@ -45,10 +50,13 @@ $("#session-start-button").click(function (e) {
 });
 
 function handleSessionStop() {
-  renderTime();
   clearInterval(timerIntervalId);
   $("#session-start-button").prop("disabled", false);
   $("#session-stop-button").prop("disabled", true);
+  logEvent(event_sessionStop);
+  timeInSeconds = 0;
+  renderTime();
+  console.log(eventsLog);
 }
 
 $("#session-stop-button").click(function (e) {
